@@ -2,6 +2,7 @@ public class Palindrome {
     private static String m_inputString = "Hi Mom";
 
     public static void main(String[] args) {
+        System.out.println("This test is case sensitive.");
         if (isPalindrome(m_inputString)) {
             System.out.println("This is a palindrome");
         } else {
