@@ -1,22 +1,71 @@
 public class ClimbStair {
-    private static int m_targetSteps = 5;
-    private static int m_ways = 0;
-    
+    static int m_ways = 0;
+    static int m_target = 44;
+    static int[] answers = new int[100];
     public static void main(String[] args) {
-        m_ways = Climb(1, 0, "") + Climb(2, 0, "");
-        System.out.println("Total ways: " + m_ways);
+        long _startTime = System.currentTimeMillis();
+        Climb(m_target);
+        System.out.println(m_ways);
+        long _endTime = System.currentTimeMillis();
+        long _totalTime = _endTime - _startTime;
+        System.out.println("Time usage: " + _totalTime);
+
+        //Method 2
+        _startTime = System.currentTimeMillis();
+        System.out.println(Climb_2(m_target));
+        _endTime = System.currentTimeMillis();
+        _totalTime = _endTime - _startTime;
+        System.out.println("Time usage: " + _totalTime);
+
+        //Method 3
+        _startTime = System.currentTimeMillis();
+        System.out.println(Climb_3(m_target));
+        _endTime = System.currentTimeMillis();
+        _totalTime = _endTime - _startTime;
+        System.out.println("Time usage: " + _totalTime);
+    }
+    
+    static void Climb(int n) {
+        for (int i = 1; i < 3; i++){
+            int m = n - i;
+            if (m == 0){
+                m_ways ++;
+            } else if (m > 0){
+                Climb(m);
+            }
+        }
     }
 
-    private static int Climb(int _stepNum, int _totalStep, String _msg){
-        int _currentStep = _stepNum + _totalStep;
-        _msg = _msg + Integer.toString(_stepNum) + " step ";
-        if (_currentStep == m_targetSteps) {
-            System.out.println(_msg);
+    static int Climb_2(int n){
+        if (n == 1){
             return 1;
-        } else if (_currentStep > m_targetSteps){
-            return 0;
-        } else {
-            return Climb(1, _currentStep, _msg) + Climb(2, _currentStep, _msg);
         }
+        
+        if (n == 2){
+            return 2;
+        }
+        
+        if (n > 2){
+            return Climb_2(n - 1) + Climb_2(n - 2);
+        }
+        
+        return 0;
+    }
+
+    static int Climb_3(int n){
+        if (n == 1){
+            return 1;
+        }
+        
+        if (n == 2){
+            return 2;
+        }
+        
+        if (answers[n] != 0) {
+            return answers[n];
+        }
+        
+        answers[n] = Climb_3(n - 1) + Climb_3(n - 2);
+        return answers[n];
     }
 }
